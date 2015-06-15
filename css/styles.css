@@ -5,13 +5,35 @@
 }
 
 
-#wrapper {
-	margin:0px;
+.wrapper {
+	margin:15px;
 	border: 1px solid #a1a1a1;
 	padding:25px;
-	background-color: #b0c4de;
-	width:600px;
+	background-color: #CCCCCC;
+	width:1390px;
 	margin-left: auto;
     margin-right: auto;
 }
 
+
+.infoblock {
+	margin-bottom:0px;
+	height: 300px;
+	/*background-color: rgb(227,229,226);*/
+	/*border: 1px solid #a1a1a1;*/
+}
+
+#gui {
+	display: inline-block;
+	width: 290px;
+	height: 300px;
+	/*border-right: 1px solid #a1a1a1;*/
+	padding: 15px;
+}
+
+#canvas {
+	vertical-align: top;
+	display: inline-block;
+	width: 1040px;
+	height: 300px;
+}
