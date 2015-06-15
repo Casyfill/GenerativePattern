@@ -1,0 +1,311 @@
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+
+#wrapper {
+	margin:0px;
+	border: 1px solid #a1a1a1;
+	padding:25px;
+
+	width:750px;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+#header {
+	margin-bottom:15px;
+	min-height: 100px;
+}
+
+h1 {
+	font-family: arial;
+	font-size: 1.8em;
+	margin:0px;
+	margin-bottom:  15px;
+
+}
+
+#head{
+	display: block;
+	width: 100%;
+	height: 90px;
+}
+
+#sub{
+	display: block;
+	width: 100%;
+}
+
+#subtitle{
+	/*width:100%;*/
+	/*font-family: sans-serif;*/
+	font-size: 1em;	
+}
+
+#titles {
+	display: inline-block;
+	float:left;
+	width: 60%;
+}
+
+#logo {
+	display: inline-block;
+	/*margin-top: 2px;*/
+	margin: 2px,0,1em,1em;
+	float:right;
+	width: 35%;
+	height: 100%;
+}
+
+/*INFOBLOCKS*/
+
+.infoblock {
+	margin-bottom:25px;
+	height: 350px;
+	/*background-color: rgb(227,229,226);*/
+	border: 1px solid #a1a1a1;
+}
+
+.blockHeader{
+	border-bottom: 1px solid #a1a1a1;
+	/*border: 1px solid #a1a1a1;*/
+	/*background-color: white;*/
+	width: 100%;
+	height: 36px;
+	padding: 10px;
+	
+}
+
+h3 {
+	font-size: 1.1em;
+	 text-align: center;
+	 vertical-align:middle;
+	 margin: 0px;
+}
+
+/*block2*/
+#cityMap {
+	display: inline-block;
+	width: 50%;
+	height: calc(100% - 36px);
+	border-right: 1px solid #a1a1a1;
+}
+#map2 {
+	height: 100%;
+}
+
+#radarWrapper {
+	vertical-align: top;
+	
+	display: inline-block;
+	width: 49%;
+	height: calc(100% - 36px);
+	
+	
+}
+
+/*block3*/
+#block3 {
+	height: 300px;
+}
+
+#chartContainer {
+	display: inline-block;
+	width: 74%;
+	height: 262px;
+
+	background-color: rgb(227,229,226);
+}
+
+#topChart {
+	height: 262px;
+	/*width:75%;*/
+	/*margin:auto;*/
+	/*vertical-align: middle;*/
+}
+
+#chartMenu {
+	/*position: relative;
+	top:-60px;
+	left:15px;*/
+	vertical-align: top;
+	display: inline-block;
+	/*margin: auto;*/
+	width: 25% ;
+	height: 262px;
+
+	/*background-color: rgb(73,72,82);*/
+}
+
+#menuAligner{
+	margin-top: 31px;
+}
+
+
+.button {
+	display: table;
+	border: 1px solid #a1a1a1;
+	margin: auto;
+	margin-bottom:20px;
+	padding-left: 5px;
+	padding-right: 5px;
+	
+	width:150px;
+	min-height: 35px;
+	font-size: 0.9em;
+	background-color: white;
+	cursor: pointer;
+
+}
+
+.button:hover {
+	background-color: #EDECFA; 	
+}
+
+.buttonClicked {
+	display: table;
+	border: 1px solid #a1a1a1;
+	margin: auto;
+	margin-bottom:20px;
+	padding-left: 5px;
+	padding-right: 5px;
+	
+	width:150px;
+	min-height: 35px;
+	font-size: 0.9em;
+	background-color: rgb(227,229,226);
+	cursor: pointer;
+
+}
+
+/*
+.buttonClicked:hover {
+	background-color: #AAABAE; 	
+}*/
+
+p.inbutton {
+   display: table-cell;
+  text-align: center; 
+	margin: auto;
+	line-height: 90%;
+	vertical-align: middle;
+	/*position: relative;
+	top:13px*/;
+}
+
+/*FOOTER*/
+#footer{
+ height: auto;
+ padding: 15px;
+ padding-bottom: 10px;
+ margin-bottom: 	0px;
+
+}
+
+h6 {
+	font-size: 0.95em;
+	 text-align: center;
+	 vertical-align:middle;
+	 margin: 0px;
+
+}
+
+#contacts { font-size: 0.8em;
+	margin: 0px;
+	margin-top: 4px;
+	text-align: center; 
+	 
+}
+
+/*#topChart rect {
+  fill: rgb(35,59,96);
+}*/
+
+#topChart .name {
+  fill: black;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+
+#topChart .label {
+	text-anchor: end;
+	font: 10px sans-serif;
+	fill:white;
+}
+
+#radar polygon {
+	/*fill:none;*/
+	fill:rgb(35,59,96);
+	fill-opacity:0.1;
+	stroke:rgb(35,59,96);
+	stroke-width:2px;
+}
+
+#radar circle {
+	
+	fill: rgb(35,59,96);
+}
+
+#radar .label {
+	text-anchor: start;
+	font: 11px sans-serif;
+	fill:black;
+	
+}
+
+div.mytooltip {	
+    position: absolute;			
+    text-align: left;
+    padding:8px;			
+    width: 60px;					
+    height: 24px;					
+    
+ 
+    background: rgb(35,59,96);	
+    border: 0px;		
+    pointer-events: none;			
+	font: 10px sans-serif; 
+    color:white;
+    vertical-align: middle;		
+}
+
+.axis .name{
+	text-anchor: start;
+	font: 8px sans-serif;
+	fill:black;	
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #a1a1a1;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family: sans-serif;
+    font-size: 8px;
+}
+
+#radar .valuelabel {
+	font: 10px sans-serif;
+	fill:black;
+	font-weight:bold;
+}
+
+.name {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight:bold;
+}
+
+#quant {
+	text-anchor: end;
+	font: 12px sans-serif;
+	fill:black;
+}

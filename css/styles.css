@@ -1,0 +1,17 @@
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+
+#wrapper {
+	margin:0px;
+	border: 1px solid #a1a1a1;
+	padding:25px;
+	background-color: #b0c4de;
+	width:600px;
+	margin-left: auto;
+    margin-right: auto;
+}
+
