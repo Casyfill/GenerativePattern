@@ -5,7 +5,7 @@
 add_library('controlP5')
 import gui # all but main gui functions
 import geomLogics as gL # alladvanced geometrical functions
-
+import DistrPoints as dp
 
 controls = ()  # gui controls
 state = {"cpointT":100, 
@@ -16,7 +16,8 @@ state = {"cpointT":100,
              "mDist":300,
              "minM":[0.3,0.8],
              "maxM":[1,1.6],
-             'uID':9999
+             'uID':9999,
+             'n': 400
              } # default states
 
 w , h = 1040, 420
@@ -27,6 +28,13 @@ def setup():
     
     background(0) #toolbar color
     size(w,h)
+    
+    #ControlPanel     
+    fill(100)
+    noStroke()
+    
+    noStroke()
+    rect(0,300,w,150)
     
     controls = controlPanel(state) # main GUI function
     
@@ -48,20 +56,17 @@ def draw():
     
     randomSeed(state['uID']) #uID defines randomSeed for the whole sketch
     c = gL.defineCenter(state['cpointT']/100)
-    fill(255)
-    ellipse(c.x,c.y,10,10)
     
-    stroke(255)
-    noFill()
-    strokeWeight(1)
-    ellipse(c.x,c.y,state['cRadius'],state['cRadius'])
+    
+    dp.popPlane(c,state)
+    
+    
     
     #ControlPanel     
     fill(100)
     noStroke()
-    rect(0,300,w,150)
-    noStroke()
-    rect(0,300,w,150)
+    
+    rect(0,300,w,h-300)
     
 
 def controlPanel(state):
