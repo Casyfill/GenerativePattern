@@ -24,8 +24,8 @@ def updateState(state,controls):
     state['color'] = controls[3].getValue()
     state['shape'] = controls[4].getValue()
     state['mDIst'] = controls[5].getValue()
-    state['minM'] = controls[6].getValue()
-    state['maxM'] = controls[7].getValue()
+    state['minM'] = controls[6].arrayValue()
+    state['maxM'] = controls[7].arrayValue()
     try:
         state['uID'] = int(controls[8].getValue())
     except:

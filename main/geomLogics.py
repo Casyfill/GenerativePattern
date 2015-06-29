@@ -72,6 +72,12 @@ def rotateCoord(p1,p2,c,t):
     
     return PVector(vR.x+c.x, vR.y + c.y, z)
 
+def pointCyl(c, dst, ang):
+    #cylindrical point constructor
+    p = PVector(dst,0)
+    pR = rotateVector(p, ang)
+    return PVector(c.x+pR.x, c.y + pR.y)
+
 
     
 

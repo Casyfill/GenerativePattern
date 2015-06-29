@@ -7,13 +7,14 @@ import gui # all but main gui functions
 import geomLogics as gL # alladvanced geometrical functions
 import DistrPoints as dp
 
+
 controls = ()  # gui controls
 state = {"cpointT":100, 
              "cRadius":50,
              "cDistr":50,
              'color':1,
              "shape":1,
-             "mDist":300,
+             "mDist":250,
              "minM":[0.3,0.8],
              "maxM":[1,1.6],
              'uID':9999,
