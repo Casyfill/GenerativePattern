@@ -23,17 +23,21 @@ def updateState(state,controls):
     state['cDistr'] = controls[2].getValue()
     state['color'] = controls[3].getValue()
     state['shape'] = controls[4].getValue()
-    state['mDIst'] = controls[5].getValue()
-    state['minM'] = controls[6].arrayValue()
-    state['maxM'] = controls[7].arrayValue()
+    state['mDist'] = controls[5].getValue()
+    state['aSize'] = controls[6].getValue()
+    state['minM'] = controls[7].arrayValue()
+    state['maxM'] = controls[8].arrayValue()
+    state['rColor'] = controls[10].getValue() #toggle
+    state['cSharp'] = controls[11].getValue()
+    
     try:
-        state['uID'] = int(controls[8].getValue())
+        state['uid'] = int(controls[9].getStringValue())
     except:
-        state['uID'] = 9999
         println("caution: uID should be numeric!")
     return oldState
   
 def bang():
     #supposed to react to the bang button
     print('saved!')
+
 

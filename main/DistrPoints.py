@@ -6,33 +6,27 @@ def popPlane(p, state):
     
     pushMatrix()
     translate(p.x, p.y)
-    rotate(-p.z)
+    rotate(-p.z - (HALF_PI/7)*state['cpointT'])
     
     inPlane(state)
     popMatrix()
 
 def inPlane(state):
-    
-    
-    rectMode(CENTER)
-    noFill()
-    stroke(255)
-    strokeWeight(2)
-    rect(0, 0,state['cRadius'],state['cRadius'])
-    rectMode(CORNER)
-    
+        
     agents = populateAgents(state)
-    vizAgents(agents)
+    agents.sort(key=lambda x: x.position.z)
+    vizAgents(agents,state)
 
 def populateAgents(state):
     shift = random(360)
     
     agents = []
+    
     for x in xrange(state['n']):
         rad = map(round(randomGaussian()*15), 0, 35, 5, 100)
         zDepth = map(rad, 5, 150, -200, 200)
         ang = random(360)
-        Dist = map(rad, 0, 150, 400, 0) + random(-30, 30)
+        Dist = map(rad, 0, 150, state['cRadius'], 0) + random(-state['cDistr'], state['cDistr'])
         
         
         
@@ -49,8 +43,8 @@ def populateAgents(state):
         agents.append(Agent(xy, density, rad ))
     return agents
 
-def vizAgents(agents):
+def vizAgents(agents,state):
     for agent in agents:
-        agent.viz()
+        agent.viz(state)
     
     
