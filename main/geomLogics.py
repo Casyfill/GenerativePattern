@@ -4,7 +4,7 @@ def defineCenter(t):
     
     ## define points
     
-    eX = 0.2
+    eX = 0.5
     eX = map(eX,0,1,150,1040-150)  # defining ePoint
 
     

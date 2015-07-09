@@ -6,25 +6,33 @@ add_library('controlP5')
 import gui # all but main gui functions
 import geomLogics as gL # alladvanced geometrical functions
 import DistrPoints as dp
+import metaballs as mb
 
+from colorGradients import Gradientr
+
+agents = []
 
 controls = ()  # gui controls
 state = {"cpointT":1.0, 
-             "cRadius":300,
+             "cRadius":150,
              "cDistr":50,
-             'color':random(1,10),
+             'color':random(1.0,9.0),
              "shape":1,
              "mDist":250,
              "minM":[0.3,0.8],
              "maxM":[1.0,1.6],
              'aSize':1.0,
              'uid': int(random(1,10000)),
-             'n': 400,
+             'n': 80,
              'rColor': False,
              'cnt':1,
-             'cSharp':38
+             'cSharp':38,
+             'colorState':0,
+             'cP' : PVector(0,0,0),
+             'agents':[]
              } # default states
 
+colorState = 0
 w , h = 1040, 420
 
 def setup():
@@ -32,15 +40,17 @@ def setup():
     global state
     smooth()
     
-    background(0) #toolbar color
     size(w,h)
+    rect(0,300,w,150)
     
+    background(0) #toolbar color
+
     #ControlPanel     
     fill(100)
     noStroke()
     
     noStroke()
-    rect(0,300,w,150)
+    
     
     controls = controlPanel(state) # main GUI function
     
@@ -50,22 +60,29 @@ def setup():
 def draw():
     # update state. if it changed, redraw canvas
 
-    oldState = gui.updateState(state,controls)
+    oldState = gui.updateState(colorState, state,controls)
     
     if oldState==state:
         return
     
     print 'state updated!'
-    #black canvas     
+    
+    
+    #black canvas
     fill(0)
     noStroke()
-    rect(0,0,w,300)
+    rect(0,0,w,300)     
+    
+    if state['colorState']!=0:
+        g = Gradientr()
+        g.gradiantBack(state['color'], state['cP'],w, state['rColor'])
+    
+    
     randomSeed(state['uid'])
     print 'uid:', state['uid']
     
-    c = gL.defineCenter(state['cpointT'])
     
-    dp.popPlane(c,state)
+    dp.popPlane(state)
     
     
     
@@ -94,6 +111,11 @@ def controlPanel(state):
     sl3 = cp5.addSlider("circle distortion").setPosition(15, 355).setRange(0,100).setValue(state['cDistr'])
     gui.customizeSlider(sl3)
     
+    #numBALLS - balls (num)
+    numB = cp5.addTextfield("Balls").setPosition(15,375).setSize(60,15).setAutoClear(False)
+    numB.setText(str(state['n']))
+    gui.styleGUI(numB)
+    
     ## STATES
     
     # slider 4, colorMode TODO: redesign to integers
@@ -111,6 +133,13 @@ def controlPanel(state):
     # toggle reverse color
     tgl1 = cp5.addToggle("reverse color").setPosition(300, 375).setValue(state['rColor'])
     tgl1.setSize(30,15)
+    
+    b2 = cp5.addBang("CS").setPosition(370, 375).setSize(60, 20).setLabel("CS")
+    b2.addListener(bangListener2())
+    gui.customizeBang(b2)
+    b2.setSize(15, 15)
+    
+    
     
     ## MODIFIER PARAMS
     
@@ -152,6 +181,24 @@ def controlPanel(state):
     sl7 = cp5.addSlider("agent Size").setPosition(600, 375).setRange(0.1,3.0).setValue(state['aSize'])
     gui.customizeSlider(sl7)
     
+    # metaballs bang 1
+    b3 = cp5.addBang("metaballs1").setPosition(444, 375).setSize(60, 20).setLabel("MB1")
+    b3.addListener(bangListener3())
+    gui.customizeBang(b3)
+    b3.setSize(15, 15)
+    
+    # metaballs bang 2
+    b4 = cp5.addBang("metaballs2").setPosition(464, 375).setSize(60, 20).setLabel("MB2")
+    b4.addListener(bangListener4())
+    gui.customizeBang(b4)
+    b4.setSize(15, 15)
+    
+    # metaballs bang 3
+    b5 = cp5.addBang("metaballs3").setPosition(484, 375).setSize(60, 20).setLabel("MB3")
+    b5.addListener(bangListener5())
+    gui.customizeBang(b5)
+    b5.setSize(15, 15)
+    
     ## GENERAL OUT
     
     #numberBox - uID (seed)
@@ -162,9 +209,9 @@ def controlPanel(state):
     
     # save img button
     b = cp5.addBang("bang").setPosition(w-75, 350).setSize(60, 20).setLabel("Save image")
-    b.addListener(bangListener())
+    b.addListener(bangListener1())
     gui.customizeBang(b)
-    return (sl1,sl2,sl3,sl4,sl5,sl6,sl7, rng1,rng2, uID, tgl1, sl8)
+    return (sl1,sl2,sl3,sl4,sl5,sl6,sl7, rng1,rng2, uID, tgl1, sl8, numB)
 
 
 class TextListener(ControlListener):
@@ -172,7 +219,7 @@ class TextListener(ControlListener):
         try: 
             state['uid'] = int(e.getStringValue())
         except:
-            print "caution: uID should be numeric!"
+            
             pass
         print state['uid']
          
@@ -182,7 +229,7 @@ def saveState(v, tag):
     
     state[tag]=v
     
-class bangListener(ControlListener):
+class bangListener1(ControlListener):
     def controlEvent(self, e):
         global state
         img  = get(0, 0, 1040, 300)
@@ -191,4 +238,67 @@ class bangListener(ControlListener):
         print (path + 'file saved in the same folder as applet!')
         state['cnt']+=1 
 
+class bangListener2(ControlListener):
+    def controlEvent(self, e):
+        global colorState
+        
+        x = colorState
+        if x ==2:
+            x=0
+        else: x+=1 
+       
+        colorState = x
+        print 'colorState is:', colorState
+
+class bangListener3(ControlListener):
+    def controlEvent(self, e):
+        global state
+        
+        #dAgents= mb.delocate(state['agents'],state) 
+        rect(0,0,1040,300)
+        print 'start drawing'
+        mb.renderMetaballs1(state['agents'], mb.draw1, state)
+        
+        #ControlPanel     
+        fill(100)
+        noStroke()
+    
+        rect(0,300,w,h-300)
+        print 'done drawing'
+            
+class bangListener4(ControlListener):
+    def controlEvent(self, e):
+        global state
+        
+        #dAgents= mb.delocate(state['agents'],state) 
+        rect(0,0,1040,300)
+        print 'start drawing'
+        mb.renderMetaballs2(state['agents'], state)
+        
+        #ControlPanel     
+        fill(100)
+        noStroke()
+    
+        rect(0,300,w,h-300)
+        print 'done drawing'
+    
+class bangListener5(ControlListener):
+    def controlEvent(self, e):
+        global state
+        
+        #dAgents= mb.delocate(state['agents'],state) 
+        rect(0,0,1040,300)
+        print 'start drawing'
+        mb.renderMetaballs3(state['agents'], state)
+        
+        #ControlPanel     
+        fill(100)
+        noStroke()
+    
+        rect(0,300,w,h-300)
+        print 'done drawing'
+
+
+    
+    
 

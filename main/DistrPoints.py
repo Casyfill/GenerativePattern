@@ -1,24 +1,26 @@
 #import java.util.Random as rnd
 import geomLogics as gL
 from agent import Agent
+from metaballs import delocateOne
 
-def popPlane(p, state):
-    
-    pushMatrix()
-    translate(p.x, p.y)
-    rotate(-p.z - (HALF_PI/7)*state['cpointT'])
-    
+def popPlane(state):    
     inPlane(state)
-    popMatrix()
-
+    
 def inPlane(state):
-        
+    
     agents = populateAgents(state)
     agents.sort(key=lambda x: x.position.z)
     vizAgents(agents,state)
+    
+    state['agents'] = agents
 
 def populateAgents(state):
+    
     shift = random(360)
+    
+    p = state['cP']
+    t = state['cpointT']
+    
     
     agents = []
     
@@ -28,8 +30,7 @@ def populateAgents(state):
         ang = random(360)
         Dist = map(rad, 0, 150, state['cRadius'], 0) + random(-state['cDistr'], state['cDistr'])
         
-        
-        
+            
         density = 1.0
         if Dist>state['mDist']:
             
@@ -40,7 +41,9 @@ def populateAgents(state):
         
         xy = gL.pointCyl(PVector(0,0), Dist, shift+ang)
         xy.z = zDepth
-        agents.append(Agent(xy, density, rad ))
+        
+        a = delocateOne(Agent(xy, density, rad ), state['cP'], state['cpointT'])
+        agents.append(a)
     return agents
 
 def vizAgents(agents,state):

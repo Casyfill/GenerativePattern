@@ -1,4 +1,4 @@
-
+import geomLogics as gL
     
 def styleGUI(o):
     o.setColorForeground(color(125))
@@ -16,12 +16,12 @@ def customizeSlider(slider):
   slider.setSize(200, 15)
   styleGUI(slider)
 
-def updateState(state,controls):
+def updateState(cs, state,controls):
     oldState = state.copy()
     state['cpointT'] = controls[0].getValue()
     state['cRadius'] = controls[1].getValue()
     state['cDistr'] = controls[2].getValue()
-    state['color'] = controls[3].getValue()
+    state['color'] = controls[3].getValue()-1
     state['shape'] = controls[4].getValue()
     state['mDist'] = controls[5].getValue()
     state['aSize'] = controls[6].getValue()
@@ -29,11 +29,21 @@ def updateState(state,controls):
     state['maxM'] = controls[8].arrayValue()
     state['rColor'] = controls[10].getValue() #toggle
     state['cSharp'] = controls[11].getValue()
-    
+    state['colorState'] = cs
+    state['cP'] = gL.defineCenter(state['cpointT'])
     try:
         state['uid'] = int(controls[9].getStringValue())
     except:
-        println("caution: uID should be numeric!")
+        #println("caution: uID should be numeric!")
+        pass
+    
+    try:
+        state['n'] = int(controls[12].getStringValue())
+    except:
+        #println("caution: numB should be numeric!")
+        pass
+
+    
     return oldState
   
 def bang():
