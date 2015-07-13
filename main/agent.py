@@ -5,11 +5,12 @@ class Agent():
     position= PVector(0,0,0)
     dencity= 1
     radius = 1
-    
-    def __init__(self, position, density, radius):
+    rRadius = 1
+    def __init__(self, position, density, radius, multiplicator):
         self.position = position
         self.density = density
         self.radius = radius
+        self.rRadius = radius*density* multiplicator
     
     def viz(self,state):
     
@@ -31,10 +32,11 @@ class Agent():
         elif state['colorState']==2:
             fill(255)
         
-        r = radius*density*state['aSize']
+        self.rRadius = radius*density*state['aSize']
+        
         
         ellipseMode(CENTER)
-        ellipse(position.x, position.y, r, r)
+        ellipse(position.x, position.y, self.rRadius, self.rRadius)
     
     def crossViz(self,state):
         stroke(255)

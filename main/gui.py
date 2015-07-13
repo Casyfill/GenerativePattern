@@ -42,6 +42,12 @@ def updateState(cs, state,controls):
     except:
         #println("caution: numB should be numeric!")
         pass
+        
+    try:
+        state['bounds'] = int(controls[13].getStringValue())
+    except:
+        #println("caution: uID should be numeric!")
+        pass
 
     
     return oldState

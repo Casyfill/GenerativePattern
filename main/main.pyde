@@ -1,12 +1,12 @@
 ## generative Pattern for webinars.ru
 ## by Philipp Kats, june 2015
 ##
-
 add_library('controlP5')
 import gui # all but main gui functions
 import geomLogics as gL # alladvanced geometrical functions
 import DistrPoints as dp
 import metaballs as mb
+import vectorMetaballs as vMb
 
 from colorGradients import Gradientr
 
@@ -18,7 +18,7 @@ state = {"cpointT":1.0,
              "cDistr":50,
              'color':random(1.0,9.0),
              "shape":1,
-             "mDist":250,
+             "mDist":100,
              "minM":[0.3,0.8],
              "maxM":[1.0,1.6],
              'aSize':1.0,
@@ -29,7 +29,9 @@ state = {"cpointT":1.0,
              'cSharp':38,
              'colorState':0,
              'cP' : PVector(0,0,0),
-             'agents':[]
+             'agents':[],
+             'bounds':3,
+             'metaballs':[]
              } # default states
 
 colorState = 0
@@ -116,6 +118,12 @@ def controlPanel(state):
     numB.setText(str(state['n']))
     gui.styleGUI(numB)
     
+    #numberBox - uID (seed)
+    bounds = cp5.addTextfield("bounds").setPosition(90,375).setSize(30,15).setAutoClear(False)
+    bounds.setText(str(state['bounds']))
+    #uID.addListener(TextListener())
+    gui.styleGUI(bounds)
+    
     ## STATES
     
     # slider 4, colorMode TODO: redesign to integers
@@ -182,23 +190,30 @@ def controlPanel(state):
     gui.customizeSlider(sl7)
     
     # metaballs bang 1
-    b3 = cp5.addBang("metaballs1").setPosition(444, 375).setSize(60, 20).setLabel("MB1")
+    b3 = cp5.addBang("metaballs1").setPosition(424, 375).setSize(60, 20).setLabel("MB1")
     b3.addListener(bangListener3())
     gui.customizeBang(b3)
     b3.setSize(15, 15)
     
     # metaballs bang 2
-    b4 = cp5.addBang("metaballs2").setPosition(464, 375).setSize(60, 20).setLabel("MB2")
+    b31 = cp5.addBang("metaballs12").setPosition(444, 375).setSize(60, 20).setLabel("MB2")
+    b31.addListener(bangListener31())
+    gui.customizeBang(b31)
+    b31.setSize(15, 15)
+    
+    # metaballs bang 3
+    b4 = cp5.addBang("metaballs2").setPosition(464, 375).setSize(60, 20).setLabel("MB3")
     b4.addListener(bangListener4())
     gui.customizeBang(b4)
     b4.setSize(15, 15)
     
-    # metaballs bang 3
-    b5 = cp5.addBang("metaballs3").setPosition(484, 375).setSize(60, 20).setLabel("MB3")
+    # metaballs bang 4
+    b5 = cp5.addBang("metaballs3").setPosition(484, 375).setSize(60, 20).setLabel("MB4")
     b5.addListener(bangListener5())
     gui.customizeBang(b5)
     b5.setSize(15, 15)
     
+
     ## GENERAL OUT
     
     #numberBox - uID (seed)
@@ -211,7 +226,7 @@ def controlPanel(state):
     b = cp5.addBang("bang").setPosition(w-75, 350).setSize(60, 20).setLabel("Save image")
     b.addListener(bangListener1())
     gui.customizeBang(b)
-    return (sl1,sl2,sl3,sl4,sl5,sl6,sl7, rng1,rng2, uID, tgl1, sl8, numB)
+    return (sl1,sl2,sl3,sl4,sl5,sl6,sl7, rng1,rng2, uID, tgl1, sl8, numB,bounds)
 
 
 class TextListener(ControlListener):
@@ -266,14 +281,15 @@ class bangListener3(ControlListener):
         rect(0,300,w,h-300)
         print 'done drawing'
             
+
 class bangListener4(ControlListener):
     def controlEvent(self, e):
         global state
-        
-        #dAgents= mb.delocate(state['agents'],state) 
+        print 'start drawing Isocurves'
+        fill(0)
         rect(0,0,1040,300)
-        print 'start drawing'
-        mb.renderMetaballs2(state['agents'], state)
+        
+        mb.renderMetaballs50(state['agents'], mb.draw1, state, tofill=False)
         
         #ControlPanel     
         fill(100)
@@ -281,15 +297,34 @@ class bangListener4(ControlListener):
     
         rect(0,300,w,h-300)
         print 'done drawing'
-    
+
+
 class bangListener5(ControlListener):
+    def controlEvent(self, e):
+        global state
+        print 'start drawing isolines'
+        fill(0)
+        rect(0,0,1040,300)
+        
+        #vMb.drawMetaballs(state, tofill=True)
+        mb.renderMetaballs50(state['agents'], mb.draw1, state, tofill=True)
+         
+        #ControlPanel     
+        fill(100)
+        noStroke()
+    
+        rect(0,300,w,h-300)
+        print 'done drawing'
+        
+
+class bangListener31(ControlListener):
     def controlEvent(self, e):
         global state
         
         #dAgents= mb.delocate(state['agents'],state) 
         rect(0,0,1040,300)
         print 'start drawing'
-        mb.renderMetaballs3(state['agents'], state)
+        mb.renderMetaballs1(state['agents'], mb.draw2, state)
         
         #ControlPanel     
         fill(100)
@@ -297,8 +332,8 @@ class bangListener5(ControlListener):
     
         rect(0,300,w,h-300)
         print 'done drawing'
-
-
+        
+        
     
     
 

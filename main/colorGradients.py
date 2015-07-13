@@ -36,7 +36,7 @@ class Gradientr(object):
         p1 = floor(plt)
         p2 = ceil(plt)
         
-        mx = (w - center.x)*2 + 30
+        mx = (w - center.x)*2 + 50
         #mx= 1700 # max width of sircle
         noStroke()
         for r in xrange(mx,0,-1):

@@ -42,7 +42,7 @@ def populateAgents(state):
         xy = gL.pointCyl(PVector(0,0), Dist, shift+ang)
         xy.z = zDepth
         
-        a = delocateOne(Agent(xy, density, rad ), state['cP'], state['cpointT'])
+        a = delocateOne(Agent( xy, density, rad, state['aSize'] ), state['cP'], state['cpointT'])
         agents.append(a)
     return agents
 
